@@ -12,6 +12,24 @@
     /*Adds letter placeholders to the display when the game starts*/
     addPhraseToDisplay () {
 
+        const phraseUL = document.getElementById("phrase"); //Get empty HTML UL
+
+        const characters = this.phrase.split(""); //Split phrase up into individual characters
+
+        const letterRegex = /[a-z]/; //Declare regex to identify split characters for adding classes
+        const spaceRegex = /\s/;
+
+        characters.forEach (character => {    //Iterates through characters, adding 'letter' or 'space' class
+
+            const li = document.createElement("li"); //Creates LI and sets content to the passed character
+            li.textContent = character;
+
+                if (letterRegex.test(character)) {li.classList.add("letter")}
+
+                else if(spaceRegex.test(character)) {li.classList.add("space")};
+
+            phraseUL.appendChild(li);           //Append LIs to UL in sequence
+        });
     }
     /**********************************************************/
 

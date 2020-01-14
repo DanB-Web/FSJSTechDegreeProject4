@@ -11,11 +11,17 @@ class Game {
 
     }
 
-    /*Hides the start screen overlay, calls the getRandomPhrase() method,
-    and sets the activePhrase property. Adds phrase to display*/
+    /*
+    1) Hides the start screen overlay
+    2) Sets the activePhrase property to a random phrase, and passes it to the addPhraseToDisplay method in the Phrase object
+    */
+   
     startGame () {
 
+        document.getElementById("overlay").style.display = "none";
+        this.activePhrase = this.getRandomPhrase().addPhraseToDisplay();
     }
+
     /**********************************************************/
 
     /*Returns an array of phrases to use in the game*/
@@ -31,14 +37,16 @@ class Game {
     }
     /**********************************************************/
 
-    /*Randomly retrieves a phrase stored in the phases array and returns it*/
+    /*Randomly retrieves a phrase stored in the phases array and returns it as a phrase object*/
     getRandomPhrase () {
         let min = Math.ceil(0);
         let max = Math.floor(this.phrases.length)
         
         let random = Math.floor(Math.random() * (max - min)) + min;
 
-        return this.phrases[random];
+        let gamePhrase = new Phrase (this.phrases[random]);
+
+        return gamePhrase;
     }
     /**********************************************************/
 
