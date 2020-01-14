@@ -33,15 +33,26 @@
     }
     /**********************************************************/
 
-    /*Checks to see if the letter selected by the player matches a letter in the display*/
-    checkLetter () {
+    /*Checks to see if the letter selected by the player matches a letter in the display, and returns true or false*/
+    checkLetter (letter) {
+        //console.log(this.phrase.includes(letter));
+        return this.phrase.includes(letter);
 
     }
     /**********************************************************/
 
     /*Reveals the letters on the board that match the player selection*/
-    showMatchedLetter () {
+    showMatchedLetter (letter) {
 
+        let keys = document.getElementsByClassName("letter");
+
+        for (let i = 0; i < keys.length; i++) {
+            
+            if (keys[i].innerText === letter) 
+            
+                {keys[i].classList.add("show");}      
+
+        }
     }
     /**********************************************************/
 

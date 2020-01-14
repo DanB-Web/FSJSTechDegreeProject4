@@ -15,11 +15,14 @@ class Game {
     1) Hides the start screen overlay
     2) Sets the activePhrase property to a random phrase, and passes it to the addPhraseToDisplay method in the Phrase object
     */
-   
-    startGame () {
 
+    startGame () {
+        
         document.getElementById("overlay").style.display = "none";
-        this.activePhrase = this.getRandomPhrase().addPhraseToDisplay();
+        
+        let temp = this.getRandomPhrase();
+        temp.addPhraseToDisplay();
+        this.activePhrase = temp;        //!!!Note the instantiated phrase object is stored here!!!
     }
 
     /**********************************************************/
@@ -55,7 +58,20 @@ class Game {
     2)If the letter is correct, add the WRONG class to the button and remove a life
     3)If the letter is correct, add the CHOSEN class to the button, call showMatchedLetter() and call checkForWin()
     4)If checkForWin returns TRUE, it should call gameOver() */
-    handleInteraction () {
+    handleInteraction (letter) {
+        
+        let userInput = this.activePhrase.checkLetter(letter);  //Send letter to checkLetter() method
+        
+
+        if (userInput === true) {
+            console.log("True dat!");
+            this.activePhrase.showMatchedLetter(letter);
+        }
+
+        else if (userInput === false) {
+            console.log("No bro!");
+        }
+        
 
     }
     /**********************************************************/
