@@ -66,13 +66,23 @@ class Game {
         if (userInput === true) {
             console.log("True dat!");
             this.activePhrase.showMatchedLetter(letter);
+            let check = this.checkForWin();
+
+                if (check) {
+                    console.log("Winner!");
+                    this.gameOver();
+                }
         }
 
         else if (userInput === false) {
             console.log("No bro!");
-        }
-        
+            this.removeLife();
 
+                if (this.missed === 5) {
+                    console.log("Loser!");
+                    this.gameOver(); 
+                }    
+        }
     }
     /**********************************************************/
 
@@ -80,13 +90,29 @@ class Game {
 
     removeLife() {
    
+        const heart = document.getElementById("scoreboard");
+        const li = heart.firstElementChild.children; 
+            
+        document.querySelectorAll("li img")[4-this.missed].setAttribute("src", "images/lostHeart.png");
+        
+        this.missed += 1;
     }
     /**********************************************************/
 
     /*Checks if the player has revealed all letters in the active phase*/
 
     checkForWin() {
+        
+        const letterClass = document.querySelectorAll(".letter");
+        const showClass = document.querySelectorAll(".show");
 
+        //console.log("Check for win called!");
+        
+        if (letterClass.length === showClass.length) {
+            //console.log("Winner!");
+            return true; 
+        }
+    
     }
     /**********************************************************/
 
@@ -95,6 +121,20 @@ class Game {
 
     gameOver() {
 
+        const overlay = document.getElementById("overlay");
+        const message = document.getElementById("game-over-message");
+        overlay.style.display = "block";
+        overlay.classList.remove("start");
+        
+        if (this.missed === 5) {
+            overlay.classList.add("lose");
+            message.innerText = "LOL!";}
+
+        else {
+            overlay.classList.add("win");
+            message.innerText = "BRO!";}
+
     }
+
     /**********************************************************/
  }

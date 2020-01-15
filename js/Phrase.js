@@ -35,9 +35,7 @@
 
     /*Checks to see if the letter selected by the player matches a letter in the display, and returns true or false*/
     checkLetter (letter) {
-        //console.log(this.phrase.includes(letter));
         return this.phrase.includes(letter);
-
     }
     /**********************************************************/
 
