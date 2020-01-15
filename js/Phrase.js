@@ -9,7 +9,10 @@
 
     }
 
-    /*Adds letter placeholders to the display when the game starts*/
+    /*
+    Adds letter placeholders to the display when the game starts
+    */
+
     addPhraseToDisplay () {
 
         const phraseUL = document.getElementById("phrase"); //Get empty HTML UL
@@ -31,15 +34,23 @@
             phraseUL.appendChild(li);           //Append LIs to UL in sequence
         });
     }
+
     /**********************************************************/
 
-    /*Checks to see if the letter selected by the player matches a letter in the display, and returns true or false*/
+    /*
+    Checks to see if the letter selected by the player matches a letter in the display, and returns true or false
+    */
+
     checkLetter (letter) {
         return this.phrase.includes(letter);
     }
+
     /**********************************************************/
 
-    /*Reveals the letters on the board that match the player selection*/
+    /*
+    Reveals the letters on the board that match the player selection
+    */
+
     showMatchedLetter (letter) {
 
         let keys = document.getElementsByClassName("letter");
@@ -52,6 +63,7 @@
 
         }
     }
+    
     /**********************************************************/
 
  }
