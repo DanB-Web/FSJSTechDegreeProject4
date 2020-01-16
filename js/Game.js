@@ -8,24 +8,32 @@ class Game {
         this.missed = 0;
         this.phrases = this.createPhrases();
         this.activePhrase = null;
+        this.guesses = [];
 
     }
 
     /*
     1) Hides the start screen overlay
     2) Sets the activePhrase property to a random phrase, and passes it to the addPhraseToDisplay method in the Phrase object
+    3) Sets the header text to display which rule number is being guesses
+    4) Adds the active phrase to the WIN screen
     */
 
     startGame () {
         
         document.getElementById("overlay").style.display = "none";
-        //document.querySelector(".header").innerHTML = "Rule No:";
+        const win = document.getElementById("win");
+        const button = document.getElementById("btn__reset");
         
         let temp = this.getRandomPhrase();
-        temp.addPhraseToDisplay();
-        this.activePhrase = temp;        //!!!Note the instantiated phrase object is stored here!!!
+        temp[0].addPhraseToDisplay();
+        this.activePhrase = temp[0];        //!!!Note the instantiated phrase object is stored here!!!
         
-        document.querySelector(".header").innerHTML = "Rule No:";
+        document.querySelector(".header").innerHTML = "Rule Number " + temp[1]; //Displays current rule number under guess
+
+        win.innerText = "Rule " + temp[1] + ": " + this.activePhrase.phrase; //Adds current phrase to WIN screen
+
+        button.innerText = "Play again?";
 
     }
 
@@ -49,7 +57,7 @@ class Game {
     /**********************************************************/
 
     /*
-    Randomly retrieves a phrase stored in the phases array and returns it as a phrase object
+    Randomly retrieves a phrase stored in the phases array and returns it inside an array as a phrase object and an index number
     */
 
     getRandomPhrase () {
@@ -57,10 +65,11 @@ class Game {
         let max = Math.floor(this.phrases.length)
         
         let random = Math.floor(Math.random() * (max - min)) + min;
+        let index = random + 1; 
 
         let gamePhrase = new Phrase (this.phrases[random]);
 
-        return gamePhrase;
+        return [gamePhrase, index];
     }
 
     /**********************************************************/
@@ -75,8 +84,15 @@ class Game {
 
     handleInteraction (letter) {
         
-        let userInput = this.activePhrase.checkLetter(letter);  //Send letter to checkLetter() method
+    let test = this.guesses.includes(letter);       //This test allows use of the keyboard
+       
+       if (!test) {
+        
+        this.guesses.push(letter);
+        
+        let userInput = this.activePhrase.checkLetter(letter);  //Send letter to checkLetter() method  
 
+        
         /*New stuff for keyboard events*/
 
         let buttons = document.getElementsByClassName("key");
@@ -86,17 +102,18 @@ class Game {
 
             {if (buttons[i].textContent === letter)
 
-                if (userInput === true ) {buttons[i].classList.add("chosen");}
+                if (userInput === true ) {buttons[i].classList.add("chosen");
+                                          buttons[i].disabled = true;}
 
-                else if (userInput === false) {buttons[i].classList.add("wrong");}             
-                }
+                else if (userInput === false) { buttons[i].classList.add("wrong");
+                                                buttons[i].disabled = true;}             
+            }
    
         /**********************************/
         
         event.target.disabled = true; //Disable activated button
-
+        
         if (userInput === true) {
-            //console.log(event.target);
             event.target.classList.add("chosen");
             this.activePhrase.showMatchedLetter(letter);
             let check = this.checkForWin();
@@ -108,7 +125,6 @@ class Game {
         }
 
         else if (userInput === false) {
-            //console.log(event.target);
             event.target.classList.add("wrong");
             this.removeLife();
 
@@ -118,8 +134,9 @@ class Game {
                 }    
         }
 
-        body.classList.remove("chosen");
+        body.classList.remove("chosen");           //Event bubbling due to keyboard events
         body.classList.remove("wrong");
+       }
     }
 
     /**********************************************************/
@@ -149,6 +166,7 @@ class Game {
         const letterClass = document.querySelectorAll(".letter");
         const showClass = document.querySelectorAll(".show");
         
+        
         if (letterClass.length === showClass.length) {
             return true; 
         }
@@ -169,17 +187,24 @@ class Game {
         const button = document.getElementsByClassName("key");
         const phraseUL = document.getElementById("phrase");
         const hearts = document.querySelectorAll("li img");
+        
+
+        //const delay = 3000;
 
         overlay.style.display = "block";
         overlay.classList.remove("start");
         
         if (this.missed === 5) {
+            overlay.classList.remove("win");
             overlay.classList.add("lose");
-            message.innerText = "Not today buddy!";}
+            message.innerText = "Hasta la vista, baby!";}
 
         else {
+            overlay.classList.remove("lose");
             overlay.classList.add("win");
-            message.innerText = "Nice job!";}
+            message.innerText = '"None of my rules of success will work unless you do" - Arnold Schwarzenegger';
+            
+        }
 
         //Reset functions
 
@@ -193,6 +218,8 @@ class Game {
 
         for (let j = 0; j < hearts.length; j++) //Re-enable all lives images
             {hearts[j].setAttribute("src", "images/liveHeart.png");}    
+
+        this.activePhrase = null;     
         
     }
 

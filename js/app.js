@@ -5,6 +5,7 @@
 /*Constants*/
 
 let game;
+let round = 0;
 const startButton = document.getElementById("btn__reset");
 const screenKeyboard = document.getElementById("qwerty");
 
@@ -17,13 +18,14 @@ startButton.addEventListener('click', (event) => {
 
 });
 
-/*Event Listener for enter or return key to start game*/
+/*Event Listener for enter or return key to start game - checks game.activePhrase to confirm a game isn't already in session*/
 
 document.addEventListener('keydown', (event) => {
 
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && (round === 0 || game.activePhrase === null)) {
     game = new Game ();
-    game.startGame();}
+    game.startGame();
+    round += 1;}
 
 });
 
@@ -53,6 +55,12 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
+/*New element for correct phrase to display on WIN screen*/
+
+const overlay = document.getElementById("overlay");
+const win = document.createElement("h2");
+win.setAttribute("id", "win");
+overlay.appendChild(win);
 
 
 

@@ -177,6 +177,7 @@ button {
 
 .title {
   color: #FFF;
+  margin-top: 75px;
 }
 
 .start {
@@ -201,4 +202,8 @@ button {
 
 .lose a {
   color: var(--color-lose);
+}
+
+#win {
+  margin-top: 100px;
 }
