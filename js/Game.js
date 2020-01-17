@@ -21,7 +21,7 @@ class Game {
 
     startGame () {
         
-        document.getElementById("overlay").style.display = "none";
+        document.getElementById("overlay").style.display = "none"; //Hide start screen overlay
         const win = document.getElementById("win");
         const button = document.getElementById("btn__reset");
         
@@ -84,7 +84,7 @@ class Game {
 
     handleInteraction (letter) {
         
-    let test = this.guesses.includes(letter);       //This test allows use of the keyboard
+    let test = this.guesses.includes(letter);       //This test allows use of the keyboard without keyboard events triggering multiple times on the same key
        
        if (!test) {
         
@@ -119,7 +119,6 @@ class Game {
             let check = this.checkForWin();
 
                 if (check) {
-                    //console.log("Winner!");
                     this.gameOver();
                 }
         }
@@ -127,11 +126,6 @@ class Game {
         else if (userInput === false) {
             event.target.classList.add("wrong");
             this.removeLife();
-
-                if (this.missed === 5) {
-                    //console.log("Loser!");
-                    this.gameOver(); 
-                }    
         }
 
         body.classList.remove("chosen");           //Event bubbling due to keyboard events
@@ -153,6 +147,10 @@ class Game {
         document.querySelectorAll("li img")[4-this.missed].setAttribute("src", "images/lostHeart.png");
         
         this.missed += 1;
+
+        if (this.missed === 5) {                
+            this.gameOver(); 
+            }  
     }
 
     /**********************************************************/
@@ -170,7 +168,6 @@ class Game {
         if (letterClass.length === showClass.length) {
             return true; 
         }
-    
     }
 
     /**********************************************************/
@@ -187,9 +184,6 @@ class Game {
         const button = document.getElementsByClassName("key");
         const phraseUL = document.getElementById("phrase");
         const hearts = document.querySelectorAll("li img");
-        
-
-        //const delay = 3000;
 
         overlay.style.display = "block";
         overlay.classList.remove("start");

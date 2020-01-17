@@ -8,8 +8,11 @@ let game;
 let round = 0;
 const startButton = document.getElementById("btn__reset");
 const screenKeyboard = document.getElementById("qwerty");
+const overlay = document.getElementById("overlay");
 
-/*Event Listener for mouseclick on start button*/
+/*
+Event Listener for mouseclick on start button
+*/
 
 startButton.addEventListener('click', (event) => {
 
@@ -18,7 +21,9 @@ startButton.addEventListener('click', (event) => {
 
 });
 
-/*Event Listener for enter or return key to start game - checks game.activePhrase to confirm a game isn't already in session*/
+/*
+Event Listener for enter or return key to start game - checks game.activePhrase to confirm a game isn't already in session
+*/
 
 document.addEventListener('keydown', (event) => {
 
@@ -29,35 +34,34 @@ document.addEventListener('keydown', (event) => {
 
 });
 
-/*Event Listener for mouse events on onscreen qwerty*/
+/*
+Event Listener for mouse events on onscreen qwerty
+*/
 
 screenKeyboard.addEventListener('click', (event) => {
 
     if (event.target.tagName === "BUTTON") {
     game.handleInteraction(event.target.textContent);
-    //console.log(event.target.textContent);
     }
 
 });
 
 
-/*Event Listener for keyboard events - event bubbling causing body container to change to keyboard colours...*/
+/*
+Event Listener for keyboard events
+*/
 
 document.addEventListener('keydown', (event) => {
-    
-    //event.stopPropagation();
 
     if (event.keyCode >= 65 && event.keyCode <= 90) {
-        
-        //let keystroke = event.key.toLowerCase();
-        game.handleInteraction (event.key.toLowerCase()); 
-        //console.log(event.key.toLowerCase()); 
+    game.handleInteraction (event.key.toLowerCase()); 
     }
 });
 
-/*New element for correct phrase to display on WIN screen*/
+/*
+New element for correct phrase to display on WIN screen
+*/
 
-const overlay = document.getElementById("overlay");
 const win = document.createElement("h2");
 win.setAttribute("id", "win");
 overlay.appendChild(win);
